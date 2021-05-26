@@ -1,15 +1,45 @@
-const layout=require('../layout')
+const layout = require('../layout');
+const { getError } = require('../../helper');
 
-module.exports=({req})=>{
-    return  layout({content:` 
-    
-    <div>
-        ${req.session.userId}
-        <form method="POST">
-            <input name="email" type="text" placeholder="email" />
-            <input name="password" type="password" placeholder="password" />
-            <input name="passswordConform"  type="password"  placeholder="conform password" />
-            <button>Sign up</button>
-        </form>
-        </div>`,header:'Sign Up'})
-}
+module.exports = ({ req, error }) => {
+  return layout({
+    content: `
+      <div class="container">
+        <div class="columns is-centered">
+          <div class="column is-one-quarter">
+            <form method="POST">
+              <h1 class="title">Sign Up</h1>
+              <div class="field">
+                <label class="label">Email</label>
+                <input required class="input" placeholder="Email" name="email" />
+                <p class="help is-danger">${getError(
+                  error,
+                  'email',
+                )}</p>
+              </div>
+              <div class="field">
+                <label class="label">Password</label>
+                <input required class="input" placeholder="Password" name="password" type="password" />
+                <p class="help is-danger">${getError(
+                  error,
+                  'password',
+                )}</p>
+              </div>
+              <div class="field">
+                <label class="label">Password Confirmation</label>
+                <input required class="input" placeholder="Password Confirmation" name="passwordConfirmation" type="password" />
+                <p class="help is-danger">${getError(
+                  error,
+                  'passwordConfirmation',
+                )}</p>
+              </div>
+              <button class="button is-primary">Submit</button>
+            </form>
+            <a href="/signin">Have an account? Sign In</a>
+          </div>
+        </div>
+      </div>
+    `,
+    header: 'signup',
+  });
+};
