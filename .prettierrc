@@ -2,7 +2,7 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
   "tabWidth": 2,
-  "printWidth": 50,
+  "printWidth": 110,
   "endOfLine": "lf",
   "singleQuote": true,
   "trailingComma": "all",
