@@ -1,6 +1,6 @@
 const layout = require('../layout');
 
-module.exports = ({ products }) => {
+module.exports = ({ products, noItems }) => {
   const renderedProducts = products
     .map((product) => {
       return `
@@ -54,5 +54,7 @@ module.exports = ({ products }) => {
         </div>
       </section>
     `,
+
+    itemNo: noItems ? noItems : 0,
   });
 };

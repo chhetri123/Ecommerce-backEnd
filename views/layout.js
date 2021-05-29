@@ -1,4 +1,4 @@
-module.exports = ({ content }) => {
+module.exports = ({ content, itemNo }) => {
   return `
     <!DOCTYPE html>
       <html lang="en">
@@ -51,7 +51,8 @@ module.exports = ({ content }) => {
                     <a href="/admin/products"><i class="fa fa-star"></i> Products</a>
                   </div>
                   <div class="navbar-item">
-                    <a href="/cart"><i class="fa fa-shopping-cart"></i> Cart</a>
+                    <a href="/cart"><i class="fa fa-shopping-cart"></i> Cart <span>${itemNo}<span></a>
+
                   </div>
                 </div>
               </div>

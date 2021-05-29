@@ -6,7 +6,6 @@ const router = express.Router();
 
 router.post('/cart/products', async (req, res) => {
   let cart;
-
   if (!req.session.cartId) {
     // create  new cart object
     cart = await cartsRepo.create({ items: [] });
@@ -14,7 +13,7 @@ router.post('/cart/products', async (req, res) => {
   } else {
     cart = await cartsRepo.getOne(req.session.cartId);
   }
-
+  console.log(cart);
   const existingItem = cart.items.find((item) => item.id === req.body.productId);
   if (existingItem) {
     existingItem.quanity++;
@@ -25,15 +24,16 @@ router.post('/cart/products', async (req, res) => {
     items: cart.items,
   });
 
-  res.send('productedcadded');
+  res.redirect('/');
 });
 
 router.get('/cart', async (req, res) => {
-  console.log(req.session.cartId);
   if (!req.session.cartId) {
     return res.redirect('/');
   }
+
   const cart = await cartsRepo.getOne(req.session.cartId);
+
   for (let item of cart.items) {
     const product = await productsRepo.getOne(item.id);
     item.product = product;
@@ -41,4 +41,14 @@ router.get('/cart', async (req, res) => {
   res.send(cartShowTemplate({ items: cart.items }));
 });
 
+router.post('/cart/products/delete', async (req, res) => {
+  const { itemId } = req.body;
+  const cart = await cartsRepo.getOne(req.session.cartId);
+  const items = cart.items.filter((item) => {
+    return item.id !== itemId;
+  });
+
+  await cartsRepo.update(req.session.cartId, { items });
+  res.redirect('/cart');
+});
 module.exports = router;

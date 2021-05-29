@@ -3,10 +3,7 @@ const crypto = require('crypto');
 
 module.exports = class Repository {
   constructor(filename) {
-    if (!filename)
-      throw new Error(
-        'Creating a repository a filename',
-      );
+    if (!filename) throw new Error('Creating a repository a filename');
     this.filename = filename;
     try {
       fs.accessSync(this.filename);
@@ -30,36 +27,25 @@ module.exports = class Repository {
     return attrs;
   }
   async writeAll(records) {
-    await fs.promises.writeFile(
-      this.filename,
-      JSON.stringify(records, null, 2),
-    );
+    await fs.promises.writeFile(this.filename, JSON.stringify(records, null, 2));
   }
   randomID() {
     return crypto.randomBytes(16).toString('hex');
   }
   async getOne(id) {
     const records = await this.getAll();
-    return records.find(
-      (record) => record.id === id,
-    );
+    return records.find((record) => record.id === id);
   }
   async delete(id) {
     const records = await this.getAll();
-    const filteredRecords = records.filter(
-      (record) => record.id !== id,
-    );
+    const filteredRecords = records.filter((record) => record.id !== id);
     await this.writeAll(filteredRecords);
   }
   async update(id, attrs) {
     const records = await this.getAll();
-    const record = records.find(
-      (record) => record.id === id,
-    );
+    const record = records.find((record) => record.id === id);
     if (!record) {
-      throw new Error(
-        `Record  eith id ${id} not found`,
-      );
+      throw new Error(`Record  eith id ${id} not found`);
     }
     Object.assign(record, attrs);
     await this.writeAll(records);
